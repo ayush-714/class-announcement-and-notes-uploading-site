@@ -1,6 +1,49 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
+const { MongoClient } = require("mongodb");
+const mongoose = require('mongoose');
+
+
+    // const client = new MongoClient(uri, {
+//     userNewUrlParser: true,
+//     useUnifiedTopology: true,
+// });
+// var popup = require('popups');
+
+
+let alert = require('alert');  
+
+
+const userInfo = new Schema({
+    _id:  String, // String is shorthand for {type: String}
+    First_Name:  String,
+    Last_Name:  String,
+    Email:  String,
+    Password:  String
+  });
+  const Info= new mongoose.model("sign_in",userInfo);
+// async function run() {
+//     try {
+//         await client.connect();
+//         const database = client.db('sign_in');
+//         const namePassword = database.collection('name_password');
+//         // Query for a movie that has the title 'Back to the Future'
+//         //   const query = { id: 'Back to the Future' };
+//         // console.log(namePassword);
+//         const query = { Email: '' };
+//         const movie = await namePassword.findOne(query);
+//         console.log(movie);
+//     } finally {
+//         // Ensures that the client will close when you finish/error
+//         await client.close();
+//     }
+// }
+// run().catch(console.dir);
+
+
+
+
 const ejs = require("ejs");
 var _ = require('lodash');
 const app = express();
@@ -23,6 +66,96 @@ let sub = [
         }]
     }
 ];
+app.post('/submit_signup', function (req, res) {
+
+    var user_name = req.body.f;
+    var user_last = req.body.s;
+    var user_id = req.body.u;
+    var user_email = req.body.e;
+    var user_pass = req.body.pass;
+    if (user_id == 'admin') {
+        res.sendFile(__dirname + '/sign.html');
+    }
+    else {
+        const docUment = new Info({
+            _id: user_id,
+            First_Name: user_name,
+            Last_Name: user_last,
+            Email: user_email,
+            Password: user_pass
+        });
+        const found = 0;
+        
+        
+        //   docUment.save(function(err) {
+        //     if (err) {
+        //       if (err.name === 'MongoError' && err.code === 11000) {
+        //         // Duplicate username
+        //         return res.sendFile(__dirname + '/sign.html');
+        //       }
+        
+        //       // Some other error
+        //     //   return res.status(500).send(err);
+        //     }
+        //     res.json({
+        //         success: true
+        //       });
+        // })
+        Info.count({ _id: user_id }) 
+        .then((count) => { 
+          if (count > 0) {
+            alert("User Already Exist")
+            res.sendFile(__dirname + '/sign.html');
+          } else { 
+            res.sendFile(__dirname + '/login.html');
+          } 
+        }); 
+        // , function (err, person) {
+        //     if (err) {
+        //         console.log("1");
+        //         docUment.save();
+                // res.sendFile(__dirname + '/login.html');
+        //     }else{
+        //         console.log("0");
+        //         res.sendFile(__dirname + '/sign.html');
+        //     }
+        //     // Prints "Space Ghost is a talk show host".
+           
+        //   }
+        // console.log(Info.find({ _id: user_id }).count());
+        // if(Info.find({ _id: user_id }).count()){
+        //     res.sendFile(__dirname + '/sign.html');
+        // }else{
+        //     res.sendFile(__dirname + '/login.html');
+        // }
+        // async function run() {
+        //     try {
+        //         await client.connect();
+        //         const database = client.db('sign_in');
+        //         const query = { _id: user_id }
+
+        //         const namePassword =database.collection('name_password');
+        //         var user_names = await namePassword.findOne(  query ).count();
+        //         console.log(user_name);
+                
+
+        //     } finally {
+        //         // Ensures that the client will close when you finish/error
+        //         await client.close();
+        //     }
+        // }
+        // run().catch(console.dir);
+      
+        // if (found == 1) {
+        //     res.sendFile(__dirname + '/sign.html');
+        // }
+        // else {
+        //     res.sendFile(__dirname + '/login.html');
+        // }
+    }
+});
+
+
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/home.html');
 })
@@ -31,7 +164,6 @@ app.post('/sign', function (req, res) {
 })
 app.post('/login', function (req, res) {
 
-    console.log(first_time);
     res.sendFile(__dirname + '/login.html');
 })
 
@@ -43,7 +175,7 @@ app.post('/after_add', function (req, res) {
         links: [{}]
     }
     sub.push(temp2);
-    console.log(sub);
+  
 
 
     if (username == "admin") {
@@ -88,7 +220,7 @@ app.get("/subjects/:subName", function (req, res) {
     for (var i = 0; i < sub.length; i++) {
 
         if (_.lowerCase(sub[i].subj) === required) {
-            console.log(sub[i]);
+            
             initial_loc = i;
             if (username == 'admin') {
                 res.render("final", { allsub: sub[i] });
