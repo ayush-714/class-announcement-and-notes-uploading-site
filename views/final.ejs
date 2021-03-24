@@ -21,20 +21,30 @@
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
+        <form action="/go_login" method="post">
+            <button type="submit">Login</button>
+        </form>
+        <form action="/go_sign" method="post">
+            <button type="submit">Sign up</button>
+        </form>
+        <form action="/go_subj" method="post">
+            <button type="submit">Home</button>
+        </form>
     <h1>
-        <%=allsub.subj%>
+        <%=allsub.Subj%>
 
     </h1>
     <center>
-        <% for(var i=1;i<allsub.links.length;i++){ %>
-            <h2>  <%=allsub.links[i].temp%>  </h2>
-            <br>
+        <% for(var i=allsub.Links.length;i>=2;i--){ %>
+            <h2>  <%=allsub.Links[i-1].part_head%>  </h2>
+            
                 <h3>
-                <%= console.log(allsub.links[i]); %>
+                
               
-                <%=allsub.links[i].temp2 %>
-                        <a href="<%=allsub.links[i].temp3 %>">*</a>
+                <%=allsub.Links[i-1].part_sub %>
+                        <a href="<%=allsub.Links[i-1].part_link %>"> ^</a>
             </h3>
+            <br>
             <%} %>
     </center>
 </body>

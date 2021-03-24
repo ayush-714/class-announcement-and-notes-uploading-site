@@ -3,46 +3,29 @@ const bodyParser = require("body-parser");
 const request = require("request");
 const { MongoClient } = require("mongodb");
 const mongoose = require('mongoose');
-
-
-    // const client = new MongoClient(uri, {
-//     userNewUrlParser: true,
-//     useUnifiedTopology: true,
-// });
-// var popup = require('popups');
-
-
-let alert = require('alert');  
-
-
+let alert = require('alert');
+const { Schema } = mongoose;
+// mongodb+srv://Class:@cluster0.j8pws.mongodb.net/Notes_Uploading_Site
+mongoose.connect('', { useNewUrlParser: true, useUnifiedTopology: true });
+var delay=1000;
+// mongodb+srv://Class:<password>@cluster0.j8pws.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 const userInfo = new Schema({
-    _id:  String, // String is shorthand for {type: String}
-    First_Name:  String,
-    Last_Name:  String,
-    Email:  String,
-    Password:  String
-  });
-  const Info= new mongoose.model("sign_in",userInfo);
-// async function run() {
-//     try {
-//         await client.connect();
-//         const database = client.db('sign_in');
-//         const namePassword = database.collection('name_password');
-//         // Query for a movie that has the title 'Back to the Future'
-//         //   const query = { id: 'Back to the Future' };
-//         // console.log(namePassword);
-//         const query = { Email: '' };
-//         const movie = await namePassword.findOne(query);
-//         console.log(movie);
-//     } finally {
-//         // Ensures that the client will close when you finish/error
-//         await client.close();
-//     }
-// }
-// run().catch(console.dir);
-
-
-
+    _id: String, // String is shorthand for {type: String}
+    First_Name: String,
+    Last_Name: String,
+    Email: String,
+    Password: String
+});
+const aNo = new Schema({
+    Subj: String,
+    Links: [{
+        part_link: String,
+        part_head: String,
+        part_sub: String
+    }]
+});
+const Info = new mongoose.model("sign_ins", userInfo);
+const Announce = new mongoose.model("announcement", aNo);
 
 const ejs = require("ejs");
 var _ = require('lodash');
@@ -85,73 +68,20 @@ app.post('/submit_signup', function (req, res) {
             Password: user_pass
         });
         const found = 0;
-        
-        
-        //   docUment.save(function(err) {
-        //     if (err) {
-        //       if (err.name === 'MongoError' && err.code === 11000) {
-        //         // Duplicate username
-        //         return res.sendFile(__dirname + '/sign.html');
-        //       }
-        
-        //       // Some other error
-        //     //   return res.status(500).send(err);
-        //     }
-        //     res.json({
-        //         success: true
-        //       });
-        // })
-        Info.count({ _id: user_id }) 
-        .then((count) => { 
-          if (count > 0) {
-            alert("User Already Exist")
-            res.sendFile(__dirname + '/sign.html');
-          } else { 
-            res.sendFile(__dirname + '/login.html');
-          } 
-        }); 
-        // , function (err, person) {
-        //     if (err) {
-        //         console.log("1");
-        //         docUment.save();
-                // res.sendFile(__dirname + '/login.html');
-        //     }else{
-        //         console.log("0");
-        //         res.sendFile(__dirname + '/sign.html');
-        //     }
-        //     // Prints "Space Ghost is a talk show host".
-           
-        //   }
-        // console.log(Info.find({ _id: user_id }).count());
-        // if(Info.find({ _id: user_id }).count()){
-        //     res.sendFile(__dirname + '/sign.html');
-        // }else{
-        //     res.sendFile(__dirname + '/login.html');
-        // }
-        // async function run() {
-        //     try {
-        //         await client.connect();
-        //         const database = client.db('sign_in');
-        //         const query = { _id: user_id }
 
-        //         const namePassword =database.collection('name_password');
-        //         var user_names = await namePassword.findOne(  query ).count();
-        //         console.log(user_name);
-                
 
-        //     } finally {
-        //         // Ensures that the client will close when you finish/error
-        //         await client.close();
-        //     }
-        // }
-        // run().catch(console.dir);
-      
-        // if (found == 1) {
-        //     res.sendFile(__dirname + '/sign.html');
-        // }
-        // else {
-        //     res.sendFile(__dirname + '/login.html');
-        // }
+        Info.countDocuments({ _id: user_id })
+            .then((count) => {
+                if (count > 0) {
+
+                    alert("This username is already exist");
+                    res.sendFile(__dirname + '/sign.html');
+                } else {
+                    docUment.save();
+                    res.sendFile(__dirname + '/login.html');
+                }
+            });
+
     }
 });
 
@@ -167,34 +97,79 @@ app.post('/login', function (req, res) {
     res.sendFile(__dirname + '/login.html');
 })
 
+
 app.post('/after_add', function (req, res) {
 
-    var temp = req.body.subject;
-    let temp2 = {
-        subj: temp,
-        links: [{}]
-    }
-    sub.push(temp2);
-  
+    const temPdata = new Announce({
+        Subj: req.body.subject,
+        Links: [{ }]
+    });
+    temPdata.save();
+    setTimeout(function() {
+        Announce.find({}, function (err, arr) {
+       
 
 
-    if (username == "admin") {
-        res.render("subjects_page", { allsub: sub });
-    } else {
-        res.render("Student_subjects_page", { allsub: sub });
-    }
-
+            if (username == "admin") {
+                res.render("subjects_page", { allsub: arr });
+            } else {
+                res.render("Student_subjects_page", { allsub: arr });
+            }
+        });;
+    }, delay);
+    
 })
-app.post('/subjects_page', function (req, res) {
+app.post('/verify', function (req, res) {
 
     username = req.body.e;
-    if (req.body.e == "admin") {
-        res.render("subjects_page", { allsub: sub });
-    } else {
-        res.render("Student_subjects_page", { allsub: sub });
-    }
+    var array;
+    Announce.find({}, function (err, arr) {
+        array = arr;
 
+        
+
+        if (req.body.e == "admin" && req.body.pass == "a") {
+            res.render("subjects_page", { allsub: arr });
+        } else {
+            Info.countDocuments({ _id: username, Password: req.body.pass })
+                .then((count) => {
+
+                    if (count > 0) {
+                        res.render("Student_subjects_page", { allsub: arr });
+                    } else {
+                        alert("Username or password is incorrect!");
+                        res.sendFile(__dirname + '/login.html');
+                    }
+                });
+
+        }
+    });
 })
+app.post('/go_login', function (req, res) {
+
+    res.sendFile(__dirname + '/login.html');
+});
+app.post('/go_sign', function (req, res) {
+
+    res.sendFile(__dirname + '/sign.html');
+});
+app.post('/go_subj', function (req, res) {
+
+    Announce.find({}, function (err, arr) {
+    
+            res.render("subjects_page", { allsub: arr });
+    });
+    
+});
+app.post('/go_stusubj', function (req, res) {
+    Announce.find({}, function (err, arr) {
+       
+        res.render("Student_subjects_page", { allsub: arr });
+    });
+
+});
+
+
 
 app.post('/add_sub', function (req, res) {
 
@@ -206,31 +181,59 @@ app.post('/link_page', function (req, res) {
 });
 
 app.post('/final_page', function (req, res) {
-    var temp3 = req.body.linkss;
-    var temp = req.body.sub_topicc;
-    var temp2 = req.body.text_exist;
-    sub[initial_loc].links.push({ temp2, temp3, temp });
-
-    res.render("final", { allsub: sub[initial_loc] });
+    var part_link = req.body.linkss;
+    var part_head = req.body.sub_topicc;
+    var part_sub = req.body.text_exist;
+    var all_data;
+    Announce.find({}, function (err, arr) {
+        var fina=({
+            part_head :req.body.sub_topicc,
+            part_sub :req.body.text_exist,
+            part_link: req.body.linkss
+        });
+        
+        Announce.findOneAndUpdate(
+            { Subj: arr[initial_loc].Subj }, 
+            { $push: { Links: fina  } },
+           function (error, success) {
+                 if (error) {
+                     console.log(error);
+                 } else {
+                     console.log(success);
+                 }
+             });
+         
+             setTimeout(function() {
+                Announce.find({}, function (err, arr) {
+                    res.render("final", { allsub: arr[initial_loc] });
+                });;
+            }, delay);
+    
+});
 });
 
 app.get("/subjects/:subName", function (req, res) {
     // var a=0;
-    var required = _.lowerCase(req.params.subName);
-    for (var i = 0; i < sub.length; i++) {
 
-        if (_.lowerCase(sub[i].subj) === required) {
-            
-            initial_loc = i;
-            if (username == 'admin') {
-                res.render("final", { allsub: sub[i] });
-            }
-            else {
-                res.render("student_final", { allsub: sub[i] });
+    var required = _.lowerCase(req.params.subName);
+    Announce.find({}, function (err, arr) {
+        array = arr;
+
+
+        for (var i = 0; i < arr.length; i++) {
+
+            if (_.lowerCase(arr[i].Subj) === required) {
+
+                initial_loc = i;
+                if (username == 'admin') {
+                    res.render("final", { allsub: arr[i] });
+                }
+                else {
+                    res.render("student_final", { allsub: arr[i] });
+                }
             }
         }
-    }
-
+    });
 });
 
 
