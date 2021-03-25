@@ -1,33 +1,167 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.79.0">
+  <title>Login</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
+
+
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <!-- Favicons -->
+  <!-- <link rel="apple-touch-icon" href="/docs/5.0/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.0/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.0/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico"> -->
+  <meta name="theme-color" content="#7952b3">
+
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    body {
+      height: 100%;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      padding-top: 40px;
+      padding-bottom: 40px;
+      /* background-color: ; */
+    }
+
+    /* #f5f5f5 */
+    .form-signin {
+      width: 100%;
+      max-width: 330px;
+      padding: 15px;
+      margin: auto;
+    }
+
+    .form-signin .checkbox {
+      font-weight: 400;
+    }
+
+    .form-signin .form-control {
+      position: relative;
+      box-sizing: border-box;
+      height: auto;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .form-signin .form-control:focus {
+      z-index: 2;
+    }
+
+    .form-signin input[type="email"] {
+      margin-bottom: -1px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    .form-signin input[type="password"] {
+      margin-bottom: 10px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+    .navb{
+           
+           margin-left:87%;
+           display: flex;
+           margin-top: -30px;
+
+       }
+       .navmain{
+           position: relative;
+           background-color:#536162;
+           margin-top: -21px;
+           width:100%;
+           height:50px;
+       }
+       .nav_bu{
+           margin-right: 4px;
+       }
+  </style>
+
+
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body  style="background-color: #f3f4ed; display: inline;">
+  
+  <div class="navmain">
+    <h2>Announcement</h2>
 
-    <center>
-        <form action="/final_page" method="post">
-            <input type="text" name="sub_topicc"  placeholder="Sub-Topic">
-            <input type="text" name="text_exist"  placeholder="Enter Text">
-            <input type="text" name="linkss"  placeholder="Paste Link Address">
-            <br>
-            <button type="submit">Upload</button>
+    <div class="navb">
+        <div class=nav_bu>
+            <form action="/go_login" method="post">
+                <button type="submit" class="btn btn-light">Login</button>
+            </form>
+        </div>
+        <div class=nav_bu>
+            <form action="/go_sign" method="post">
+                <button type="submit" class="btn btn-light">Sign up</button>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+       
+    <br>
+    <div class="text-center">
+  <main class="form-signin">
     
    
+    <div>
+        <form action="/final_page" method="post">
+            <input type="text" name="sub_topicc" class="form-control" placeholder="Sub-Topic">
+            <br>
+            <br>
+            <input type="text" name="text_exist" class="form-control" placeholder="Enter Text">
+            <br>
+            <br>
+            <input type="text" name="linkss" class="form-control"  placeholder="Paste Link Address">
+            <br>
+            <br>
+            <button type="submit">Upload</button>
+        
+        
           </form>
-    </center>
+    </div>
+
+
+  </main>
+</div>
+
 
 </body>
 
 </html>
+
+

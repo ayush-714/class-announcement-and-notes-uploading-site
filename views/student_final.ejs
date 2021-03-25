@@ -10,43 +10,132 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.79.0">
-    <title>Final</title>
+    <meta name="generator" content="Hugo 0.79.0">'
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
 
+
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <meta name="theme-color" content="#7952b3">'
+    <title>Final</title>
+    <style>
+         .button {
+            position: fixed;
+            bottom: 10px;
+            left: 95%;
+            margin-left: -104.5px;
+            /*104.5px is half of the button's width*/
+        }
+
+        .section {
+
+
+            left: 45%;
+            margin-left: -104.5px;
+
+        }
+
+        .navb {
+
+            margin-left: 82%;
+            display: flex;
+            margin-top: -34px;
+
+        }
+
+        .navmain {
+            position: relative;
+            background-color: #536162;
+            margin-top: -41px;
+            width: 100%;
+            height: 50px;
+        }
+
+        .nav_bu {
+           
+            margin-right: 5px;
+            
+        }
+        .box_type{
+            height:100px;
+            width: 100px;
+            background-color: #b67162;
+            margin-left:20px;
+            margin-right: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+            .buttons{
+                width: 200px;
+                height: 50px;
+                margin: 20px;
+                background-color: #b4a5a5;
+            }
+
+   </style>
 
 
 </head>
 
-<body>
+<body style="background-color: #f3f4ed">
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <form action="/go_login" method="post">
-            <button type="submit">Login</button>
-        </form>
-        <form action="/go_sign" method="post">
-            <button type="submit">Sign up</button>
-        </form>
-        <form action="/go_stusubj" method="post">
-            <button type="submit">Home</button>
-        </form>
-    <h1>
-        <%=allsub.subj%>
+        <div class="navmain">
+            <h2>Announcement</h2>
+            <div class="navb">
+            <div class=nav_bu>
+                <form action="/go_stusubj" method="post">
+                    <button class="btn btn-light" type="submit">Home</button>
+                </form>
+            </div>
+           
+                <div class=nav_bu>
+                    <form action="/go_login" method="post">
+                        <button type="submit" class="btn btn-light">Login</button>
+                    </form>
+                </div>
+                <div class=nav_bu>
+                    <form action="/go_sign" method="post">
+                        <button type="submit" class="btn btn-light">Sign up</button>
+                    </form>
+                </div>
+            </div>
+    
+    
+        </div>
+       
+        
+    <h1 style="font-family:'Times New Roman', Times, serif;">
+        <%=allsub.Subj%>
 
     </h1>
+    
     <center>
         <% for(var i=allsub.Links.length;i>=2;i--){ %>
-            <h2>  <%=allsub.Links[i-1].part_head%>  </h2>
-            
-                <h3>
+            <div class="card" style="background-color: #9ecca4; width:30%; height:100px">
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size:20px; margin-top:10px;"><%=allsub.Links[i-1].part_head%></h5>
+                  <p class="card-text">
+                    <%=allsub.Links[i-1].part_sub %>
+                  </p>
                 
-              
-                <%=allsub.Links[i-1].part_sub %>
-                        <a href="<%=allsub.Links[i-1].part_link %>"> ^</a>
-            </h3>
+                  <button class="btn btn-light" onclick="location.href='<%=allsub.Links[i-1].part_link %>'" type="button">
+                    Link</button>
+                </div>
+              </div>
+           
             <br>
             <%} %>
-    </center>
-</body>
+  
 
+
+
+</center>
+    
+</body>
 </html>

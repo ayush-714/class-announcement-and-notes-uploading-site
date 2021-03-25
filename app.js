@@ -5,8 +5,9 @@ const { MongoClient } = require("mongodb");
 const mongoose = require('mongoose');
 let alert = require('alert');
 const { Schema } = mongoose;
-// mongodb+srv://Class:@cluster0.j8pws.mongodb.net/Notes_Uploading_Site
-mongoose.connect('', { useNewUrlParser: true, useUnifiedTopology: true });
+// 
+const mongo_pass='mongodb+srv://Class:ayush123@cluster0.j8pws.mongodb.net/Notes_Uploading_Site';
+mongoose.connect(mongo_pass, { useNewUrlParser: true, useUnifiedTopology: true });
 var delay=1000;
 // mongodb+srv://Class:<password>@cluster0.j8pws.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 const userInfo = new Schema({
@@ -237,7 +238,6 @@ app.get("/subjects/:subName", function (req, res) {
 });
 
 
-
 app.listen(process.env.PORT || 3000, function () {
-    console.log("Running....");
+
 });
